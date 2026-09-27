@@ -68,7 +68,7 @@ public class LinkedList<T> {
     public boolean contains(T x) {
         Node<T> current = head;
         while (current != null) {
-            if (current.getValue() == x) {
+            if (java.util.Objects.equals(current.getValue(), x)) {
                 return true;
             }
             current = current.getNext();

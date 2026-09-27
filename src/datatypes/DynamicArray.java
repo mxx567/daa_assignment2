@@ -9,9 +9,9 @@ public class DynamicArray<T> {
         size = array.length;
     }
 
-    public void add(T x){
+    public void add(T x) {
         if (size == array.length) {
-            T[] newArray = (T[]) new Object[array.length * 2];
+            T[] newArray = (T[]) new Object[Math.max(1, array.length * 2)];
 
             for (int i = 0; i < size; i++) {
                 newArray[i] = array[i];
@@ -19,13 +19,13 @@ public class DynamicArray<T> {
 
             array = newArray;
         }
+
         array[size++] = x;
     }
 
-
     public void add(int index, T x) {
         if (index < 0 || index > size) {
-            throw new IndexOutOfBoundsException();
+            throw new IndexOutOfBoundsException("Invalid index: " + index);
         }
 
         if (size == array.length) {
@@ -46,17 +46,18 @@ public class DynamicArray<T> {
         size++;
     }
 
-    public T remove(int index){
-        T[] newArray = (T[]) new Object[array.length -1];
+    public T remove(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Invalid index: " + index);
+        }
+
         T removed = array[index];
-        for (int i = 0; i < index; i++) {
-            newArray[i] = array[i];
+
+        for (int i = index; i < size - 1; i++) {
+            array[i] = array[i + 1];
         }
-        for (int i = index; i < size; i++) {
-            newArray[Math.max(i - 1, 0)] = array[i];
-        }
-        size--;
-        array = newArray;
+
+        array[--size] = null;
         return removed;
     }
 
@@ -64,9 +65,9 @@ public class DynamicArray<T> {
         return array[index];
     }
 
-    public boolean contains(T x){
-        for(T i : array){
-            if(i == x){
+    public boolean contains(T x) {
+        for (int i = 0; i < size; i++) {
+            if (java.util.Objects.equals(array[i], x)) {
                 return true;
             }
         }
