@@ -1,111 +1,102 @@
 package datatypes;
 
-public class    LinkedList<T> {
+
+public class LinkedList<T> {
     Node<T> head;
+    private int size;
 
-    public void add(T x){
-        Node<T> node = new Node<T>();
+    public void add(T x) {
+        Node<T> node = new Node<>();
         node.setValue(x);
-        if(head == null){
+
+        if (head == null) {
             head = node;
-        }
-        else {
-            Node<T> n = head;
-            while(n.getNext() != null){
-                n = n.getNext();
+        } else {
+            Node<T> current = head;
+            while (current.getNext() != null) {
+                current = current.getNext();
             }
-            n.setNext(node);
+            current.setNext(node);
         }
+        size++;
     }
 
-    public void add(int index, T x){
-        Node<T> node = new Node<T>();
-        node.setValue(x);
-        if(head == null && index == 0){
-            head = node;
-        }
-        else if(index > getLength()){
+    public void add(int index, T x) {
+        if (index < 0 || index > size) {
             throw new IndexOutOfBoundsException("Index " + index + " is out of bounds!");
         }
-        else {
-            if(index == 0){
-                node.setNext(head);
-                head = node;
+
+        Node<T> node = new Node<>();
+        node.setValue(x);
+
+        if (index == 0) {
+            node.setNext(head);
+            head = node;
+        } else {
+            Node<T> previous = head;
+            for (int i = 0; i < index - 1; i++) {
+                previous = previous.getNext();
             }
-            else {
-                Node<T> n = head;
-                for(int i = 0; i < index - 1; i++){
-                    n = n.getNext();
-                }
-                node.setNext(n.getNext());
-                n.setNext(node);
-            }
+            node.setNext(previous.getNext());
+            previous.setNext(node);
         }
+        size++;
     }
 
-    public Node<T> remove(int index){
-        Node<T> removed = get(index);
-        if(index > getLength() - 1){
+    public Node<T> remove(int index) {
+        if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Index " + index + " is out of bounds!");
         }
-        else if(head != null && index == 0){
+
+        Node<T> removed;
+        if (index == 0) {
+            removed = head;
             head = head.getNext();
-        }
-        else {
-            Node<T> n = head;
-            for(int i = 0; i < index - 1; i++){
-                n = n.getNext();
+        } else {
+            Node<T> previous = head;
+            for (int i = 0; i < index - 1; i++) {
+                previous = previous.getNext();
             }
-            n.setNext(n.getNext().getNext());
+            removed = previous.getNext();
+            previous.setNext(removed.getNext());
         }
+        removed.setNext(null);
+        size--;
         return removed;
     }
 
-    public boolean contains(T x){
-        if(head == null){
-            return false;
-        }
-        else {
-            Node<T> n = head;
-            while(n.getNext() != null){
-                if(n.getValue() == x){
-                    return true;
-                }
-                n = n.getNext();
+    public boolean contains(T x) {
+        Node<T> current = head;
+        while (current != null) {
+            if (current.getValue() == x) {
+                return true;
             }
-            return n.getValue() == x;
+            current = current.getNext();
         }
+        return false;
     }
 
-    public int getLength(){
-        int len = 1;
-        Node<T> node = head;
-        if(node == null){
-            return 0;
-        }
-        while(node.getNext() != null){
-            len++;
-            node = node.getNext();
-        }
-        return len;
+    public int getLength() {
+        return size;
     }
 
-    public Node<T> get(int index){
-        Node<T> n = head;
-        for(int i = 0; i < index; i++){
-            n = n.getNext();
+    public Node<T> get(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index " + index + " is out of bounds!");
         }
-        return n;
+
+        Node<T> current = head;
+        for (int i = 0; i < index; i++) {
+            current = current.getNext();
+        }
+        return current;
     }
 
-
-
-    public void show(){
-        Node<T> node = head;
-        while(node.getNext() != null){
-            System.out.print(node.getValue() + " ");
-            node = node.getNext();
+    public void show() {
+        Node<T> current = head;
+        while (current != null) {
+            System.out.print(current.getValue() + " ");
+            current = current.getNext();
         }
-        System.out.print(node.getValue());
     }
 }
