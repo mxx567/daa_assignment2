@@ -11,7 +11,7 @@ public class DynamicArray<T> {
 
     public void add(T x){
         if (size == array.length) {
-            T[] newArray = (T[]) new Object[array.length + 1];
+            T[] newArray = (T[]) new Object[array.length * 2];
 
             for (int i = 0; i < size; i++) {
                 newArray[i] = array[i];
@@ -23,33 +23,41 @@ public class DynamicArray<T> {
     }
 
 
-    public void add(int index, T x){
-        if (size == array.length) {
-            T[] newArray = (T[]) new Object[array.length + 1];
+    public void add(int index, T x) {
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException();
+        }
 
-            for (int i = 0; i < index; i++) {
+        if (size == array.length) {
+            T[] newArray = (T[]) new Object[Math.max(1, array.length * 2)];
+
+            for (int i = 0; i < size; i++) {
                 newArray[i] = array[i];
             }
-            for (int i = index + 1; i < size + 1; i++) {
-                newArray[i] = array[i-1];
-            }
-            size++;
+
             array = newArray;
         }
+
+        for (int i = size; i > index; i--) {
+            array[i] = array[i - 1];
+        }
+
         array[index] = x;
+        size++;
     }
 
-    public void remove(int index){
+    public T remove(int index){
         T[] newArray = (T[]) new Object[array.length -1];
-
-        for (int i = 0; i < index-1; i++) {
+        T removed = array[index];
+        for (int i = 0; i < index; i++) {
             newArray[i] = array[i];
         }
         for (int i = index; i < size; i++) {
-            newArray[i-1] = array[i];
+            newArray[Math.max(i - 1, 0)] = array[i];
         }
         size--;
         array = newArray;
+        return removed;
     }
 
     public T get(int index){

@@ -1,6 +1,6 @@
 package datatypes;
 
-public class LinkedList<T> {
+public class    LinkedList<T> {
     Node<T> head;
 
     public void add(T x){
@@ -24,20 +24,27 @@ public class LinkedList<T> {
         if(head == null && index == 0){
             head = node;
         }
-        else if(index > getLength() - 1){
+        else if(index > getLength()){
             throw new IndexOutOfBoundsException("Index " + index + " is out of bounds!");
         }
         else {
-            Node<T> n = head;
-            for(int i = 0; i < index - 1; i++){
-                n = n.getNext();
+            if(index == 0){
+                node.setNext(head);
+                head = node;
             }
-            node.setNext(n.getNext());
-            n.setNext(node);
+            else {
+                Node<T> n = head;
+                for(int i = 0; i < index - 1; i++){
+                    n = n.getNext();
+                }
+                node.setNext(n.getNext());
+                n.setNext(node);
+            }
         }
     }
 
-    public void remove(int index){
+    public Node<T> remove(int index){
+        Node<T> removed = get(index);
         if(index > getLength() - 1){
             throw new IndexOutOfBoundsException("Index " + index + " is out of bounds!");
         }
@@ -51,6 +58,7 @@ public class LinkedList<T> {
             }
             n.setNext(n.getNext().getNext());
         }
+        return removed;
     }
 
     public boolean contains(T x){
@@ -80,6 +88,14 @@ public class LinkedList<T> {
             node = node.getNext();
         }
         return len;
+    }
+
+    public Node<T> get(int index){
+        Node<T> n = head;
+        for(int i = 0; i < index; i++){
+            n = n.getNext();
+        }
+        return n;
     }
 
 
