@@ -116,7 +116,7 @@ Workload 1 performed 10,000 random `get(index)` operations. Workload 2 performed
 
 ## 5. Results
 
-The full benchmark tables and plots are located in the results `.docx` file in this repository. It contains average execution times, metrics, theoretical complexity, an Execution Time vs. `n` plot, and an Operations/Comparisons/Accesses vs. `n` plot.
+The full benchmark tables and plots are [here](https://docs.google.com/document/d/1k1AIi-H07KuuOyrVoZj6C7zQ7fqodFkM/edit?usp=sharing&ouid=105444040156279032950&rtpof=true&sd=true). It contains average execution times, metrics, theoretical complexity, an Execution Time vs. `n` plot, and an Operations/Comparisons/Accesses vs. `n` plot.
 
 ## 6. Discussion
 
